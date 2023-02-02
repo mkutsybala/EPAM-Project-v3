@@ -1,0 +1,8 @@
+---
+- name: Deploy docker to web server
+  hosts: all
+  become: yes
+
+  roles:
+    - deploy_docker_to_web_srv
+    - pull_and_run_container_with_webapp
