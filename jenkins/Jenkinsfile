@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
+                git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'dev', credentialsId: 'Jenkins_KEY'
                 echo 'Building..'
+                sh "ls"
             }
         }
         stage('Build inftastructure') {
