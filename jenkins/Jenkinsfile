@@ -20,8 +20,7 @@ pipeline {
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'terraform', credentialsId: 'Jenkins_KEY'
                 sh "cp terraform/* /home/ubuntu/EPAM/project_web_srv_docker/terraform"
-                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/terraform"
-                sh "terraform apply --auto-approve"
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/terraform && terraform apply --auto-approve"
             }
         }
         stage('Deploy') {
