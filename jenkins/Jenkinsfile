@@ -10,8 +10,8 @@ pipeline {
         stage('Build image') {
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
-                docker build -t mkutsybala/epam_project:latest ./docker/
-                docker push mkutsybala/epam_project:latest
+                sh "docker build -t mkutsybala/epam_project:latest ./docker/"
+                sh "docker push mkutsybala/epam_project:latest"
             }
         }
         stage('Build inftastructure') {
