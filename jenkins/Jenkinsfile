@@ -5,15 +5,16 @@ pipeline {
         stage('Init') {
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'dev', credentialsId: 'Jenkins_KEY'
+                sh "cp -r dev/* /home/ubuntu/EPAM/project_web_srv_docker/docker/source"
             }
         }
         stage('Build image') {
             steps {
-              /*  git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
-                sh "cp -rp ./dev/* ./docker/source"
-                sh "docker build -t mkutsybala/epam_project:latest ./docker/"
-                sh "docker push mkutsybala/epam_project:latest"*/
-                echo 'Building..'
+                git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
+                sh "cp docker/Dockerfile /home/ubuntu/EPAM/project_web_srv_docker/docker/Dockerfile"
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/docker"
+                sh "docker build -t mkutsybala/epam_project:latest ."
+                sh "docker push mkutsybala/epam_project:latest"
             }
         }
         stage('Build inftastructure') {
