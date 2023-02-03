@@ -27,8 +27,7 @@ pipeline {
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'ansible', credentialsId: 'Jenkins_KEY'
                 sh "cp -r ansible/* /home/ubuntu/EPAM/project_web_srv_docker/ansible"
-                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/ansible"
-                sh "ansible-playbook playbook_deploy_docker_to_web_srv.yml"
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/ansible && ansible-playbook playbook_deploy_docker_to_web_srv.yml"
             }
         }
         stage('Destroy infrastructure') {
