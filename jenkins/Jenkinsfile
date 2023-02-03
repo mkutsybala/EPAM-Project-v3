@@ -13,6 +13,7 @@ pipeline {
                 sh "cp -rp ./dev/* ./docker/source"
                 sh "docker build -t mkutsybala/epam_project:latest ./docker/"
                 sh "docker push mkutsybala/epam_project:latest"*/
+                echo 'Building..'
             }
         }
         stage('Build inftastructure') {
