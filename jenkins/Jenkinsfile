@@ -12,19 +12,24 @@ pipeline {
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
                 sh "cp docker/Dockerfile /home/ubuntu/EPAM/project_web_srv_docker/docker/Dockerfile"
-                //sh "cd /home/ubuntu/EPAM/project_web_srv_docker/docker"
                 sh "docker build -t mkutsybala/epam_project:latest /home/ubuntu/EPAM/project_web_srv_docker/docker"
                 sh "docker push mkutsybala/epam_project:latest"
             }
         }
         stage('Build inftastructure') {
             steps {
-                echo 'Testing..'
+                git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'terraform', credentialsId: 'Jenkins_KEY'
+                sh "cp terraform/* /home/ubuntu/EPAM/project_web_srv_docker/terraform"
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/terraform"
+                sh "terraform apply --auto-approve"
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'ansible', credentialsId: 'Jenkins_KEY'
+                sh "cp -r ansible/* /home/ubuntu/EPAM/project_web_srv_docker/ansible"
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/ansible"
+                sh "ansible-playbook playbook_deploy_docker_to_web_srv.yml"
             }
         }
         stage('Destroy infrastructure') {
