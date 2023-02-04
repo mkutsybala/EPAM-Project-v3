@@ -1,14 +1,27 @@
 pipeline {
     agent any
+    parameters{
+        booleanParam(name: 'destroyEnvironment', defaultValue: false, description: 'Destroy AWS environment when true')
+    }
 
     stages {
         stage('Init') {
+            when {
+                expression {
+                    params.destroyEnvironment == false
+                }
+            }
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'dev', credentialsId: 'Jenkins_KEY'
                 sh "cp -r dev/* /home/ubuntu/EPAM/project_web_srv_docker/docker/source"
             }
         }
         stage('Build image') {
+            when {
+                expression {
+                    params.destroyEnvironment == false
+                }
+            }
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
                 sh "cp docker/Dockerfile /home/ubuntu/EPAM/project_web_srv_docker/docker/Dockerfile"
@@ -17,6 +30,11 @@ pipeline {
             }
         }
         stage('Build inftastructure') {
+            when {
+                expression {
+                    params.destroyEnvironment == false
+                }
+            }
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'terraform', credentialsId: 'Jenkins_KEY'
                 sh "cp terraform/* /home/ubuntu/EPAM/project_web_srv_docker/terraform"
@@ -24,6 +42,11 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                expression {
+                    params.destroyEnvironment == false
+                }
+            }
             steps {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'ansible', credentialsId: 'Jenkins_KEY'
                 sh "cp -r ansible/* /home/ubuntu/EPAM/project_web_srv_docker/ansible"
@@ -31,8 +54,13 @@ pipeline {
             }
         }
         stage('Destroy infrastructure') {
+            when {
+                expression {
+                    params.destroyEnvironment == true
+                }
+            }
             steps {
-                echo 'Destroying....'
+                sh "cd /home/ubuntu/EPAM/project_web_srv_docker/terraform && terraform destroy --auto-approve"
             }
         }
     }
