@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    //test
     parameters{
         booleanParam(name: 'destroyEnvironment', defaultValue: false, description: 'Destroy AWS environment when true')
     }
