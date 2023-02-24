@@ -26,7 +26,7 @@ pipeline {
                 git url: 'git@github.com:mkutsybala/EPAM-Project-v3.git', branch: 'docker', credentialsId: 'Jenkins_KEY'
                 sh "cp docker/Dockerfile /home/ubuntu/EPAM/project_web_srv_docker/docker/Dockerfile"
                 sh "docker build -t mkutsybala/epam_project:latest /home/ubuntu/EPAM/project_web_srv_docker/docker"
-                sh "docker push mkutsybala/epam_project:latest"
+                sh "docker push mkutsybala/epam_project:$BUILD_NUMBER"
             }
         }
         stage('Build inftastructure') {
