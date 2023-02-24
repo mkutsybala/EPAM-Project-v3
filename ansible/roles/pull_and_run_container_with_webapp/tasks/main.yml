@@ -15,7 +15,7 @@
     name: webapp
     state: started
     recreate: yes
-    image: mkutsybala/epam_project:latest
+    image: "mkutsybala/epam_project:{{ lookup('env','BUILD_NUMBER') }}"
     pull: yes
     exposed_ports:
      - "80"
