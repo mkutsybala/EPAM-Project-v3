@@ -1,15 +1,5 @@
 ---
 # tasks file for pull_and_run_container_with_webapp
-#- name: Stop webapp container
- # docker_container:
-  #  name: webapp
-  #  state: stopped
-
-#- name: Pull the latest webapp image
- # community.docker.docker_image:
-  #  name: mkutsybala/epam_project
-   # source: pull
-
 - name: Run webapp container
   docker_container:
     name: webapp
